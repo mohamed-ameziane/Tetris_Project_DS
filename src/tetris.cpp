@@ -21,11 +21,38 @@ MainPiecesChain::MainPiecesChain() : head(nullptr), tail(nullptr){
     }
 }
 
+
+// void MainPiecesChain::addPieceLeft(Piece piece) {
+//     PiecesChainNode* newNode = new PiecesChainNode(piece);
+//     newNode->next = head;
+//     head = newNode;
+//     tail->next = newNode;
+// }
+
 void MainPiecesChain::addPieceLeft(Piece piece) {
     PiecesChainNode* newNode = new PiecesChainNode(piece);
-    newNode->next = head;
-    head = newNode;
-    tail->next = newNode;
+    if (head == nullptr) {
+        head = newNode;
+        tail = newNode;
+        newNode->next = newNode;
+    } else {
+        newNode->next = head;
+        tail->next = newNode;
+        head = newNode; 
+    }
+}
+
+void MainPiecesChain::addPieceRight(Piece piece) {
+    PiecesChainNode* newNode = new PiecesChainNode(piece);
+    if (head == nullptr) {
+        head = newNode;
+        tail = newNode;
+        newNode->next = newNode;
+    } else {
+        newNode->next = head;
+        tail->next = newNode; 
+        tail = newNode; 
+    }
 }
 
 Piece generateRandomPiece() {
