@@ -2,11 +2,19 @@
 
 class Piece {
     public :
-        enum Shape { SQUARE, RECTANGLE, CIRCLE, TRIANGLE };
+        enum Shape { SQUARE, DIAMOND, CIRCLE, TRIANGLE };
         enum Color { RED, YELLOW, BLUE, GREEN };
 
         Shape shape;
         Color color;
+
+
+        Piece* nextSameShape;
+        Piece* nextSameColor;
+
+        Piece* prevSameShape;
+        Piece* prevSameColor;
+
 
         Piece(Shape shape, Color color);
 };
