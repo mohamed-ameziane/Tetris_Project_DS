@@ -148,14 +148,11 @@ void MainPiecesChain::printPiece(Piece piece) {
 
 void MainPiecesChain::startgame(){
     MainPiecesChain chain;
-    Board board(10, 20); // Assuming 10x20 board size
-
-    // Loop for the game
+    chain.printChain();
     while (true) {
         Piece randomPiece = generateRandomPiece();
-        chain.printChain(); // Print the ready pieces
         cout << "Next piece to add: ";
-        chain.printPiece(randomPiece); // Print the next piece to add
+        chain.printPiece(randomPiece);
         cout << " (Press 'A' to add to the left, 'D' to add to the right)" << endl;
         
         char input;
@@ -165,15 +162,14 @@ void MainPiecesChain::startgame(){
         } else if (input == 'D' || input == 'd') {
             chain.addPieceRight(randomPiece);
         }
-        
-        // Clear the screen
-        cout << "\033[2J\033[1;1H"; // ANSI escape codes to clear the screen
-        
-        // Print the updated linked list
+
+        // clear the screen
+        cout << "\033[2J\033[1;1H"; 
         cout << "Main Chain of Pieces:" << endl;
         chain.printChain();
         
-        // Simulate delay for demonstration
-        usleep(1000000); // 1 second delay
+        
+        
+        usleep(1000000); 
     }
 }
