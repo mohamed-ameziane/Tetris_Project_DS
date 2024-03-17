@@ -37,6 +37,7 @@ class MainPiecesChain{
         void addPieceLeft(Piece piece);
         void addPieceRight(Piece piece);
         void printChain();
+        void printPiece(Piece); 
         void removePieces();
 };
 

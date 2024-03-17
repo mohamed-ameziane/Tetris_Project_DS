@@ -124,3 +124,40 @@ void MainPiecesChain::printChain() {
 
     std::cout << std::endl;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void MainPiecesChain::printPiece(Piece piece) {
+    switch (piece.shape) {
+        case Piece::SQUARE: cout << "S"; break;
+        case Piece::DIAMOND: cout << "D"; break;
+        case Piece::CIRCLE: cout << "C"; break;
+        case Piece::TRIANGLE: cout << "T"; break;
+    }
+
+    cout << " | ";
+
+    switch (piece.color) {
+        case Piece::RED: cout << "\033[31mR\033[0m"; break; // Red
+        case Piece::YELLOW: cout << "\033[33mY\033[0m"; break; // Yellow
+        case Piece::BLUE: cout << "\033[34mB\033[0m"; break; // Blue
+        case Piece::GREEN: cout << "\033[32mG\033[0m"; break; // Green
+    }
+}
