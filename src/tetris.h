@@ -8,13 +8,11 @@ class Piece {
         Shape shape;
         Color color;
 
-
         Piece* nextSameShape;
         Piece* nextSameColor;
 
         Piece* prevSameShape;
-        Piece* prevSameColor;
-
+        Piece* prevSameColor; 
 
         Piece(Shape shape, Color color);
 };
