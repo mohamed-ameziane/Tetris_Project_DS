@@ -1,17 +1,22 @@
 #include "tetris.h"
 #include <iostream>
+#include <ctime>
 
+int generer();
 
 int main() {
-    // Create a sample board
-    Board board(10, 20);
+    MainPiecesChain chain;
+    // chain.addPieceRight(Piece(Piece::SQUARE, Piece::RED));
+    // chain.addPieceRight(Piece(Piece::DIAMOND, Piece::YELLOW));
+    // chain.addPieceRight(Piece(Piece::CIRCLE, Piece::BLUE));
+    // chain.addPieceRight(Piece(Piece::TRIANGLE, Piece::GREEN));
+    // chain.addPieceRight(Piece(Piece::SQUARE, Piece::RED));
 
-    // Create a main chain of pieces
-    MainPiecesChain mainChain;
+    chain.addPieceRight(Piece(Piece::DIAMOND, Piece::RED));
 
-    // Print the main chain of pieces
-    std::cout << "Main Chain of Pieces:" << std::endl;
-    mainChain.printChain();
+    chain.printChain();
+
+    
 
     return 0;
 }
