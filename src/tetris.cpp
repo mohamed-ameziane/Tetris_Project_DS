@@ -1,5 +1,6 @@
 #include "tetris.h"
 #include <iostream>
+#include <unistd.h>
 #include <ctime>
 using namespace std;
 
@@ -126,24 +127,6 @@ void MainPiecesChain::printChain() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 void MainPiecesChain::printPiece(Piece piece) {
     switch (piece.shape) {
         case Piece::SQUARE: cout << "S"; break;
@@ -159,5 +142,38 @@ void MainPiecesChain::printPiece(Piece piece) {
         case Piece::YELLOW: cout << "\033[33mY\033[0m"; break; // Yellow
         case Piece::BLUE: cout << "\033[34mB\033[0m"; break; // Blue
         case Piece::GREEN: cout << "\033[32mG\033[0m"; break; // Green
+    }
+}
+
+
+void MainPiecesChain::startgame(){
+    MainPiecesChain chain;
+    Board board(10, 20); // Assuming 10x20 board size
+
+    // Loop for the game
+    while (true) {
+        Piece randomPiece = generateRandomPiece();
+        chain.printChain(); // Print the ready pieces
+        cout << "Next piece to add: ";
+        chain.printPiece(randomPiece); // Print the next piece to add
+        cout << " (Press 'A' to add to the left, 'D' to add to the right)" << endl;
+        
+        char input;
+        cin >> input;
+        if (input == 'A' || input == 'a') {
+            chain.addPieceLeft(randomPiece);
+        } else if (input == 'D' || input == 'd') {
+            chain.addPieceRight(randomPiece);
+        }
+        
+        // Clear the screen
+        cout << "\033[2J\033[1;1H"; // ANSI escape codes to clear the screen
+        
+        // Print the updated linked list
+        cout << "Main Chain of Pieces:" << endl;
+        chain.printChain();
+        
+        // Simulate delay for demonstration
+        usleep(1000000); // 1 second delay
     }
 }
