@@ -36,14 +36,6 @@ MainPiecesChain::MainPiecesChain() : head(nullptr), tail(nullptr) {
 }
 
 
-
-// void MainPiecesChain::addPieceLeft(Piece piece) {
-//     PiecesChainNode* newNode = new PiecesChainNode(piece);
-//     newNode->next = head;
-//     head = newNode;
-//     tail->next = newNode;
-// }
-
 void MainPiecesChain::addPieceLeft(Piece piece) {
     PiecesChainNode* newNode = new PiecesChainNode(piece);
     if (head == nullptr) {
