@@ -130,10 +130,10 @@ void MainPiecesChain::printPiece(Piece piece) {
     cout << " | ";
 
     switch (piece.color) {
-        case Piece::RED: cout << "\033[31mR\033[0m"; break; // Red
-        case Piece::YELLOW: cout << "\033[33mY\033[0m"; break; // Yellow
-        case Piece::BLUE: cout << "\033[34mB\033[0m"; break; // Blue
-        case Piece::GREEN: cout << "\033[32mG\033[0m"; break; // Green
+        case Piece::RED: cout << "\033[31mR\033[0m"; break;      // Red
+        case Piece::YELLOW: cout << "\033[33mY\033[0m"; break;   // Yellow
+        case Piece::BLUE: cout << "\033[34mB\033[0m"; break;     // Blue
+        case Piece::GREEN: cout << "\033[32mG\033[0m"; break;    // Green
     }
 }
 
@@ -159,8 +159,6 @@ void MainPiecesChain::startgame(){
         cout << "\033[2J\033[1;1H"; 
         cout << "Main Chain of Pieces:" << endl;
         chain.printChain();
-        
-        
         
         usleep(9); 
     }
