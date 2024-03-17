@@ -170,6 +170,6 @@ void MainPiecesChain::startgame(){
         
         
         
-        usleep(1000000); 
+        usleep(9); 
     }
 }
