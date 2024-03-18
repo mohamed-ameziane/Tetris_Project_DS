@@ -9,6 +9,12 @@ class Piece {
         Color color;
 
 
+        Piece* nextSameShape;
+        Piece* nextSameColor;
+
+        Piece* prevSameShape;
+        Piece* prevSameColor;
+
 
         Piece(Shape shape, Color color);
 };
@@ -33,34 +39,22 @@ class MainPiecesChain{
         void printChain();
         void printPiece(Piece);
         void startgame(); 
-        void removePieces();
+        void deleteThreeConsecutive();
+        void deleteLastThreeConsecutive();
+        //void deleteConsecutive();
+        void removeFirstNode();
+        void removeLastNode();
+        int getSize();
 };
 
-class ShiftingPiecesChainNode : public PiecesChainNode {
+class Board {
     public :
-        Piece* nextSameShape;
-        Piece* nextSameColor;
-
-        Piece* prevSameShape;
-        Piece* prevSameColor;
-
-        ShiftingPiecesChainNode(Piece piece);
-};
-
-class ShiftingPiecesChain : public MainPiecesChain {
-    public :
-        ShiftingPiecesChainNode* head;
-        ShiftingPiecesChainNode* tail;
-
-        ShiftingPiecesChain();
-        void moveLeft();
-};
-
-class ShiftingPiecesChain{
-    public :
-        ShiftingPiecesChainNode *head, *tail;
-
-        ShiftingPiecesChain();
+        int width;
+        int height;
+    
+        Board(int width, int height);
+        ~Board();
 };
 
 Piece generateRandomPiece();
+void menu();
