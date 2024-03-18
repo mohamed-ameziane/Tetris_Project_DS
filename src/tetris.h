@@ -56,4 +56,11 @@ class ShiftingPiecesChain : public MainPiecesChain {
         void moveLeft();
 };
 
+class ShiftingPiecesChain{
+    public :
+        ShiftingPiecesChainNode *head, *tail;
+
+        ShiftingPiecesChain();
+};
+
 Piece generateRandomPiece();
