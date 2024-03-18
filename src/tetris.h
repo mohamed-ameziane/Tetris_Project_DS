@@ -8,11 +8,7 @@ class Piece {
         Shape shape;
         Color color;
 
-        Piece* nextSameShape;
-        Piece* nextSameColor;
 
-        Piece* prevSameShape;
-        Piece* prevSameColor; 
 
         Piece(Shape shape, Color color);
 };
@@ -40,12 +36,24 @@ class MainPiecesChain{
         void removePieces();
 };
 
-class Board {
+class ShiftingPiecesChainNode : public PiecesChainNode {
     public :
-        int width;
-        int height;
-    
-        Board(int width, int height);
+        Piece* nextSameShape;
+        Piece* nextSameColor;
+
+        Piece* prevSameShape;
+        Piece* prevSameColor;
+
+        ShiftingPiecesChainNode(Piece piece);
+};
+
+class ShiftingPiecesChain : public MainPiecesChain {
+    public :
+        ShiftingPiecesChainNode* head;
+        ShiftingPiecesChainNode* tail;
+
+        ShiftingPiecesChain();
+        void moveLeft();
 };
 
 Piece generateRandomPiece();

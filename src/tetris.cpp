@@ -4,8 +4,6 @@
 #include <ctime>
 using namespace std;
 
-// Board class methods
-Board::Board(int width, int height) : width(width), height(height) {}
 
 // Piece class methods
 Piece::Piece(Shape shape, Color color) : shape(shape), color(color) {};
@@ -14,15 +12,6 @@ Piece::Piece(Shape shape, Color color) : shape(shape), color(color) {};
 PiecesChainNode::PiecesChainNode(Piece piece) : piece(piece), next(nullptr) {};
 
 // MainPiecesChain class methods
-// MainPiecesChain::MainPiecesChain() : head(nullptr), tail(nullptr){
-//     // Generate random pieces and add them to the chain
-//     for (int i = 0; i < 5; i++) {
-//         Piece randomPiece = generateRandomPiece();
-//         addPieceLeft(randomPiece);
-//     }
-// }
-
-// made by salah
 MainPiecesChain::MainPiecesChain() : head(nullptr), tail(nullptr) {
     srand(time(nullptr));
     for (int i = 0; i < 5; i++) {
@@ -60,30 +49,6 @@ void MainPiecesChain::addPieceRight(Piece piece) {
         tail->next = newNode; 
         tail = newNode; 
     }
-}
-
-Piece generateRandomPiece() {
-    int randomShapeIndex = rand() % 4;
-    int randomColorIndex = rand() % 4;
-    
-    Piece::Shape randomShape;
-    Piece::Color randomColor;
-
-    switch (randomShapeIndex) {
-        case 0: randomShape = Piece::SQUARE; break;
-        case 1: randomShape = Piece::DIAMOND; break;
-        case 2: randomShape = Piece::CIRCLE; break;
-        case 3: randomShape = Piece::TRIANGLE; break;
-    }
-
-    switch (randomColorIndex) {
-        case 0: randomColor = Piece::RED; break;
-        case 1: randomColor = Piece::YELLOW; break;
-        case 2: randomColor = Piece::BLUE; break;
-        case 3: randomColor = Piece::GREEN; break;
-    }
-
-    return Piece(randomShape, randomColor);
 }
 
 // Implement the printChain() method
@@ -162,4 +127,29 @@ void MainPiecesChain::startgame(){
         
         usleep(9); 
     }
+}
+
+// Generation of the pieces randomly
+Piece generateRandomPiece() {
+    int randomShapeIndex = rand() % 4;
+    int randomColorIndex = rand() % 4;
+    
+    Piece::Shape randomShape;
+    Piece::Color randomColor;
+
+    switch (randomShapeIndex) {
+        case 0: randomShape = Piece::SQUARE; break;
+        case 1: randomShape = Piece::DIAMOND; break;
+        case 2: randomShape = Piece::CIRCLE; break;
+        case 3: randomShape = Piece::TRIANGLE; break;
+    }
+
+    switch (randomColorIndex) {
+        case 0: randomColor = Piece::RED; break;
+        case 1: randomColor = Piece::YELLOW; break;
+        case 2: randomColor = Piece::BLUE; break;
+        case 3: randomColor = Piece::GREEN; break;
+    }
+
+    return Piece(randomShape, randomColor);
 }
