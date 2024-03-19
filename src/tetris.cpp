@@ -1,6 +1,7 @@
 #include "tetris.h"
 #include <iostream>
 #include <ctime>
+#include <c>
 using namespace std;
 
 

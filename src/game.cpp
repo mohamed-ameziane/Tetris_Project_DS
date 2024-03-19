@@ -208,6 +208,9 @@ void MainPiecesChain::removeLastNode() {
     tail->next = head;
 }
 
+
+
+
 void MainPiecesChain::startgame(sf::RenderWindow& window) {
     int score = 0;
     sf::Font font;
@@ -215,9 +218,15 @@ void MainPiecesChain::startgame(sf::RenderWindow& window) {
         cout << "Error loading font file." << endl;
         return;
     }
-    sf::Text titleText("TITRES DZEB", font, 30);
+    sf::Text titleText("Tetris Game", font, 35);
+    sf::FloatRect textBounds = titleText.getLocalBounds();
     titleText.setFillColor(sf::Color::White);
     titleText.setPosition(20.0f, 20.0f);
+
+    Piece randomPiece = generateRandomPiece();
+    upcomingPiece = randomPiece;
+
+    bool pieceAdded = false; // Flag to track if the upcoming piece has been added
 
     while (window.isOpen()) {
         sf::Event event;
@@ -225,14 +234,27 @@ void MainPiecesChain::startgame(sf::RenderWindow& window) {
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            if (event.type == sf::Event::KeyPressed) {
-                Piece randomPiece = generateRandomPiece();
-                upcomingPiece = randomPiece;
+            if (!pieceAdded && event.type == sf::Event::KeyPressed && 
+                (event.key.code == sf::Keyboard::A || event.key.code == sf::Keyboard::D)) {
+                
+                // Draw the upcoming piece
+                window.clear(sf::Color::Black);
+                window.draw(titleText);
+                drawUpcomingPiece(window);
+                window.display();
+
+                // Add the upcoming piece based on the key pressed
                 if (event.key.code == sf::Keyboard::A) {
-                    addPieceLeft(randomPiece);
-                } else if (event.key.code == sf::Keyboard::D) {
-                    addPieceRight(randomPiece);
+                    addPieceLeft(upcomingPiece);
+                } else {
+                    addPieceRight(upcomingPiece);
                 }
+
+                // Generate a new upcoming piece
+                randomPiece = generateRandomPiece();
+                upcomingPiece = randomPiece;
+
+                pieceAdded = true; // Set the flag to true
             }
         }
 
@@ -248,13 +270,13 @@ void MainPiecesChain::startgame(sf::RenderWindow& window) {
 
         drawPieces(window);
 
-        if (getSize() == 12) {
+        if (getSize() == 20) {
             sf::Text gameOverText("GAME OVER", font, 50);
             gameOverText.setFillColor(sf::Color::Red);
             gameOverText.setPosition(300.0f, 250.0f);
             window.draw(gameOverText);
             window.display();
-            sf::sleep(sf::seconds(2)); // Display "GAME OVER" for 2 seconds before clearing the window
+            sf::sleep(sf::seconds(2)); // Display "GAME OVER" for 2 seconds before closing the window
             window.close();
             return;
         } else if (getSize() == 0) {
@@ -263,16 +285,23 @@ void MainPiecesChain::startgame(sf::RenderWindow& window) {
             winText.setPosition(320.0f, 250.0f);
             window.draw(winText);
             window.display();
-            sf::sleep(sf::seconds(2)); // Display "YOU WIN" for 2 seconds before clearing the window
+            sf::sleep(sf::seconds(2)); // Display "YOU WIN" for 2 seconds before closing the window
             window.close();
             return;
         }
 
         window.display();
 
+        // Reset the flag after each frame
+        pieceAdded = false;
+
         // Implement your scoring and game end conditions here
     }
 }
+
+
+
+
 
 
 
