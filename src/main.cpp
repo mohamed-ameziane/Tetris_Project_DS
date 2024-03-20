@@ -2,6 +2,7 @@
 #include "tetris.h"
 
 int main() {
-    menu();
+    MainPiecesChain c;
+    c.startgame();
     return 0;
 }

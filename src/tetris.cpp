@@ -1,7 +1,9 @@
 #include "tetris.h"
 #include <iostream>
-#include <ctime>
 #include <unistd.h>
+#include <ctime>
+#include <termios.h>
+#include <fcntl.h>
 using namespace std;
 
 
@@ -23,6 +25,8 @@ MainPiecesChain::MainPiecesChain() : head(nullptr), tail(nullptr) {
         tail = tail->next;
     }
     tail->next = head;
+    deleteThreeConsecutive();
+    deleteLastThreeConsecutive();
 }
 
 
@@ -35,7 +39,7 @@ void MainPiecesChain::addPieceLeft(Piece piece) {
     } else {
         newNode->next = head;
         tail->next = newNode;
-        head = newNode;
+        head = newNode; 
     }
 }
 
@@ -232,19 +236,27 @@ void MainPiecesChain::printPiece(Piece piece) {
 
 
 void MainPiecesChain::startgame() {
-    
-
     MainPiecesChain chain;
     int score = 0;
     chain.printChain();
+
+    // Set terminal to non-canonical mode to read input without waiting for Enter
+    struct termios old_tio, new_tio;
+    unsigned char c;
+    tcgetattr(STDIN_FILENO, &old_tio);
+    new_tio = old_tio;
+    new_tio.c_lflag &=(~ICANON & ~ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_tio);
+
     while (true) {
         Piece randomPiece = generateRandomPiece();
-        cout << "Next piece to add: ";
+        std::cout << "Next piece to add: ";
         chain.printPiece(randomPiece);
-        cout << " (Press 'A' to add to the left, 'D' to add to the right)" << endl;
+        std::cout << " (Press 'A' to add to the left, 'D' to add to the right)" << std::endl;
 
         char input;
-        cin >> input;
+        read(STDIN_FILENO, &c, 1); // Read a single character from input without waiting for Enter
+        input = c;
         if (input == 'A' || input == 'a') {
             chain.addPieceLeft(randomPiece);
         } else if (input == 'D' || input == 'd') {
@@ -254,79 +266,30 @@ void MainPiecesChain::startgame() {
         chain.deleteThreeConsecutive();
         chain.deleteLastThreeConsecutive();
 
-        cout << "\033[2J\033[1;1H"; 
-        cout << "Main Chain of Pieces:" << endl;
+        std::cout << "\033[2J\033[1;1H"; 
+        std::cout << "Main Chain of Pieces:" << std::endl;
         chain.printChain();
 
         score += 1; 
 
-        cout << "Score: " << score << endl;
+        std::cout << "Score: " << score << std::endl;
 
         if (chain.getSize() == 20) {
-            cout << "Game Over!" << endl;
-            cout << "Your Score: " << score << endl;
+            std::cout << "Game Over!" << std::endl;
+            std::cout << "Your Score: " << score << std::endl;
             break;
         } else if (chain.getSize() == 0) {
-            cout << "You Win!" << endl;
-            cout << "Your Score: " << score << endl;
+            std::cout << "You Win!" << std::endl;
+            std::cout << "Your Score: " << score << std::endl;
             break;
         }
 
         usleep(9000);
     }
+
+    // Restore terminal settings
+    tcsetattr(STDIN_FILENO, TCSANOW, &old_tio);
 }
-
-// Implement the sameColorChainNode class
-sameColorChainNode::sameColorChainNode(Piece piece) : PiecesChainNode(piece), next(nullptr), prev(nullptr) {}
-
-// Implement the sameColorChain class
-sameColorChain::sameColorChain() : head(nullptr), tail(nullptr) {}
-
-void sameColorChain::moveLeft() {
-    if (head == nullptr || head->next == nullptr) {
-        return;
-    }
-
-    sameColorChainNode* temp = head;
-    head = head->next;
-    head->prev = nullptr;
-    delete temp;
-}
-
-int sameColorChain::getSize() {
-    if (head == nullptr) {
-        return 0;
-    }
-
-    int count = 0;
-    sameColorChainNode* current = head;
-    while (current != nullptr) {
-        count++;
-        current = current->next;
-    }
-
-    return count;
-}
-
-// Implement the sameShapeChainNode class
-
-sameShapeChainNode::sameShapeChainNode(Piece piece) : PiecesChainNode(piece), next(nullptr), prev(nullptr) {}
-
-// Implement the sameShapeChain class
-sameShapeChain::sameShapeChain() : head(nullptr), tail(nullptr) {}
-
-
-void sameShapeChain::moveLeft() {
-    if (head == nullptr || head->next == nullptr) {
-        return;
-    }
-
-    sameShapeChainNode* temp = head;
-    head = head->next;
-    head->prev = nullptr;
-    delete temp;
-}
-
 
 
 
@@ -336,35 +299,36 @@ void menu() {
     MainPiecesChain chain;
 
     
-    while (true) {
-        cout << "Menu:" << endl;
-        cout << "1. Start Game" << endl;
-        cout << "2. View High Score" << endl;
-        cout << "3. Exit" << endl;
-        cout << "Enter your choice: ";
-        
-        int choice;
-        cin >> choice;
+    do {
+    cout << "Menu:" << endl;
+    cout << "1. Start Game" << endl;
+    cout << "2. View High Score" << endl;
+    cout << "3. Exit" << endl;
+    cout << "Enter your choice: ";
+    
+    int choice;
+    cin >> choice;
 
-        switch(choice) {
-            case 1:
-                if (!gameStarted) {
-                    chain.startgame();
-                    gameStarted = true;
-                } else {
-                    cout << "Game has already started." << endl;
-                }
-                break;
-            case 2:
-                cout << "High Score: " << score << endl;
-                break;
-            case 3:
-                cout << "Exiting..." << endl;
-                return;
-            default:
-                cout << "Invalid choice. Please enter a valid option." << endl;
-        }
+    switch(choice) {
+        case 1:
+            if (!gameStarted) {
+                chain.startgame();
+                gameStarted = true;
+            } else {
+                cout << "Game has already started." << endl;
+            }
+            break;
+        case 2:
+            cout << "High Score: " << score << endl;
+            break;
+        case 3:
+            cout << "Exiting..." << endl;
+            return;
+        default:
+            cout << "Invalid choice. Please enter a valid option." << endl;
     }
+} while (true);
+
 }
 
 
