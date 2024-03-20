@@ -47,13 +47,48 @@ class MainPiecesChain{
         int getSize();
 };
 
-class Board {
+class sameColorChainNode : public PiecesChainNode{
     public :
-        int width;
-        int height;
-    
-        Board(int width, int height);
-        ~Board();
+        sameColorChainNode* next;
+        sameColorChainNode* prev;
+
+        sameColorChainNode(Piece piece);
+};
+
+class sameColorChain : public MainPiecesChain{
+    public :
+        sameColorChainNode* head;
+        sameColorChainNode* tail;
+
+        sameColorChain();
+
+        void moveLeft();
+        int getSize();
+};
+
+class sameShapeChainNode : public PiecesChainNode{
+    public :
+        sameShapeChainNode* next;
+        sameShapeChainNode* prev;
+
+        sameShapeChainNode(Piece piece);
+};
+
+class sameShapeChain : public MainPiecesChain{
+    public :
+        sameShapeChainNode* head;
+        sameShapeChainNode* tail;
+
+        sameShapeChain();
+
+        void moveLeft();
+        int getSize();
+};
+
+class Game {
+    public :
+        
+
 };
 
 Piece generateRandomPiece();

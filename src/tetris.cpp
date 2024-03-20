@@ -5,9 +5,6 @@
 using namespace std;
 
 
-// Board class methods
-Board::Board(int width, int height) : width(width), height(height) {}
-
 // Piece class methods
 Piece::Piece(Shape shape, Color color) : shape(shape), color(color) {};
 
@@ -38,7 +35,7 @@ void MainPiecesChain::addPieceLeft(Piece piece) {
     } else {
         newNode->next = head;
         tail->next = newNode;
-        head = newNode; 
+        head = newNode;
     }
 }
 
@@ -278,6 +275,58 @@ void MainPiecesChain::startgame() {
         usleep(9000);
     }
 }
+
+// Implement the sameColorChainNode class
+sameColorChainNode::sameColorChainNode(Piece piece) : PiecesChainNode(piece), next(nullptr), prev(nullptr) {}
+
+// Implement the sameColorChain class
+sameColorChain::sameColorChain() : head(nullptr), tail(nullptr) {}
+
+void sameColorChain::moveLeft() {
+    if (head == nullptr || head->next == nullptr) {
+        return;
+    }
+
+    sameColorChainNode* temp = head;
+    head = head->next;
+    head->prev = nullptr;
+    delete temp;
+}
+
+int sameColorChain::getSize() {
+    if (head == nullptr) {
+        return 0;
+    }
+
+    int count = 0;
+    sameColorChainNode* current = head;
+    while (current != nullptr) {
+        count++;
+        current = current->next;
+    }
+
+    return count;
+}
+
+// Implement the sameShapeChainNode class
+
+sameShapeChainNode::sameShapeChainNode(Piece piece) : PiecesChainNode(piece), next(nullptr), prev(nullptr) {}
+
+// Implement the sameShapeChain class
+sameShapeChain::sameShapeChain() : head(nullptr), tail(nullptr) {}
+
+
+void sameShapeChain::moveLeft() {
+    if (head == nullptr || head->next == nullptr) {
+        return;
+    }
+
+    sameShapeChainNode* temp = head;
+    head = head->next;
+    head->prev = nullptr;
+    delete temp;
+}
+
 
 
 
