@@ -1,6 +1,8 @@
 #include <iostream>
 #include <unistd.h>
+using namespace std;
 
+// -----------------------------------------------------------------------------------------------
 class Piece {
 public:
     enum Shape { SQUARE, DIAMOND, CIRCLE, TRIANGLE };
@@ -84,11 +86,16 @@ public:
 
 class Game {
     public:
-        void startgame(){}
-};
+        static const int MAX_SCORE = 10;
+        int scoreHistory [MAX_SCORE];
+        int scoreHistorySize = 0;
 
-Piece generateRandomPiece();
-void menu();
+        void startgame();
+        void addScore(int score);
+        void printScoreHistory();
+        void loadScoreHistory();
+        void saveScoreHistory();
+};
 
 // Piece class methods
 Piece::Piece(Shape shape, Color color) : shape(shape), color(color) {}
@@ -134,30 +141,6 @@ void MainPiecesChain::addPieceRight(Piece piece) {
         tail->next = newNode;
         tail = newNode;
     }
-}
-
-Piece generateRandomPiece() {
-    int randomShapeIndex = rand() % 4;
-    int randomColorIndex = rand() % 4;
-
-    Piece::Shape randomShape;
-    Piece::Color randomColor;
-
-    switch (randomShapeIndex) {
-        case 0: randomShape = Piece::SQUARE; break;
-        case 1: randomShape = Piece::DIAMOND; break;
-        case 2: randomShape = Piece::CIRCLE; break;
-        case 3: randomShape = Piece::TRIANGLE; break;
-    }
-
-    switch (randomColorIndex) {
-        case 0: randomColor = Piece::RED; break;
-        case 1: randomColor = Piece::YELLOW; break;
-        case 2: randomColor = Piece::BLUE; break;
-        case 3: randomColor = Piece::GREEN; break;
-    }
-
-    return Piece(randomShape, randomColor);
 }
 
 void MainPiecesChain::deleteThreeConsecutive() {
@@ -332,22 +315,21 @@ int sameColorChain::getSize() {
     return count;
 }
 
-// sameShapeChainNode class methods
-sameShapeChainNode::sameShapeChainNode(Piece piece) : PiecesChainNode(piece), next(nullptr), prev(nullptr) {}
+// -----------------------------------------------------------------------------------------------
 
-// sameShapeChain class methods
-sameShapeChain::sameShapeChain() : head(nullptr), tail(nullptr) {}
+Piece generateRandomPiece();
+void menu();
 
-void sameShapeChain::moveLeft() {
-    if (head == nullptr || head->next == nullptr) {
-        return;
-    }
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
 
-    sameShapeChainNode* temp = head;
-    head = head->next;
-    head->prev = nullptr;
-    delete temp;
+int main() {
+    menu();
+    
+    return 0;
 }
+// -----------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
 
 void menu() {
     int score = 0;
@@ -385,7 +367,28 @@ void menu() {
     }
 }
 
-int main() {
-    menu();
-    return 0;
+Piece generateRandomPiece() {
+    int randomShapeIndex = rand() % 4;
+    int randomColorIndex = rand() % 4;
+
+    Piece::Shape randomShape;
+    Piece::Color randomColor;
+
+    switch (randomShapeIndex) {
+        case 0: randomShape = Piece::SQUARE; break;
+        case 1: randomShape = Piece::DIAMOND; break;
+        case 2: randomShape = Piece::CIRCLE; break;
+        case 3: randomShape = Piece::TRIANGLE; break;
+    }
+
+    switch (randomColorIndex) {
+        case 0: randomColor = Piece::RED; break;
+        case 1: randomColor = Piece::YELLOW; break;
+        case 2: randomColor = Piece::BLUE; break;
+        case 3: randomColor = Piece::GREEN; break;
+    }
+
+    return Piece(randomShape, randomColor);
 }
+
+
