@@ -299,6 +299,7 @@ void MainPiecesChain::printPiece(Piece piece) {
         case Piece::GREEN: std::cout << "\033[32mG\033[0m"; break; // Green
     }
 }
+
 // sameColorChainNode class methods
 sameColorChainNode::sameColorChainNode(Piece piece) : PiecesChainNode(piece), next(nullptr), prev(nullptr) {}
 
