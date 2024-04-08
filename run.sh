@@ -1,1 +1,0 @@
-g++ -o game "src/main.cpp" "src/tetris.cpp" && ./game
