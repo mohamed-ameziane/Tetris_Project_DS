@@ -1,0 +1,1 @@
+g++ -o gameCLI gameCLI.cpp -lncurses && ./gameCLI

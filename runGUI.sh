@@ -1,0 +1,1 @@
+g++ gameGUI.cpp -o gameGUI -lsfml-graphics -lsfml-window -lsfml-system && ./gameGUI
